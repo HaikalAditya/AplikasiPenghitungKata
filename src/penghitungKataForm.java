@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -30,8 +33,8 @@ public class penghitungKataForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnHitung = new javax.swing.JButton();
+        btnSimpan = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         txtJumlahKata = new javax.swing.JTextField();
@@ -40,10 +43,12 @@ public class penghitungKataForm extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        btnCari = new javax.swing.JButton();
         lblJumlahKarakter = new javax.swing.JTextField();
         lblJumlahKalimat = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        lblCari = new javax.swing.JTextField();
+        txtJumlahParagraf = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(950, 600));
@@ -59,21 +64,26 @@ public class penghitungKataForm extends javax.swing.JFrame {
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jButton1.setText("Hitung");
+        btnHitung.setText("Hitung");
+        btnHitung.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHitungActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel2.add(jButton1, gridBagConstraints);
+        jPanel2.add(btnHitung, gridBagConstraints);
 
-        jButton2.setText("Simpan");
+        btnSimpan.setText("Simpan");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel2.add(jButton2, gridBagConstraints);
+        jPanel2.add(btnSimpan, gridBagConstraints);
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(350, 160));
 
@@ -144,13 +154,18 @@ public class penghitungKataForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
         jPanel2.add(jLabel6, gridBagConstraints);
 
-        jButton3.setText("Cari");
+        btnCari.setText("Cari");
+        btnCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel2.add(jButton3, gridBagConstraints);
+        jPanel2.add(btnCari, gridBagConstraints);
 
         lblJumlahKarakter.setPreferredSize(new java.awt.Dimension(200, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -170,18 +185,86 @@ public class penghitungKataForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel2.add(lblJumlahKalimat, gridBagConstraints);
 
-        jTextField6.setPreferredSize(new java.awt.Dimension(200, 28));
+        lblCari.setPreferredSize(new java.awt.Dimension(200, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel2.add(jTextField6, gridBagConstraints);
+        jPanel2.add(lblCari, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel2.add(txtJumlahParagraf, gridBagConstraints);
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Jumlah Paragraf");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel2.add(jLabel7, gridBagConstraints);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
+     // Ambil teks dari JTextArea
+    String inputText = jTextArea1.getText();
+
+    // Hitung jumlah kata
+    int wordCount = inputText.isEmpty() ? 0 : inputText.split("\\s+").length;
+
+    // Hitung jumlah karakter (termasuk spasi)
+    int charCount = inputText.length();
+
+    // Hitung jumlah kalimat (asumsikan dipisahkan oleh '.', '!', '?')
+    int sentenceCount = inputText.isEmpty() ? 0 : inputText.split("[.!?]").length;
+
+    // Hitung jumlah paragraf (asumsikan dipisahkan oleh newline '\n')
+    int paragraphCount = inputText.isEmpty() ? 0 : inputText.split("\n").length;
+     txtJumlahKata.setText(String.valueOf(wordCount));
+     lblJumlahKarakter.setText(String.valueOf(charCount));
+     lblJumlahKalimat.setText(String.valueOf(sentenceCount));
+    txtJumlahParagraf.setText(String.valueOf(paragraphCount));
+    }//GEN-LAST:event_btnHitungActionPerformed
+
+    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
+         // Ambil teks dari JTextArea (input teks utama)
+    String inputText = jTextArea1.getText();
+
+    // Ambil kata kunci dari JTextField (input kata untuk dicari)
+    String keyword = lblCari.getText().trim();
+
+    // Validasi input kata kunci
+    if (keyword.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Masukkan kata yang ingin dicari!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Hitung jumlah kemunculan kata kunci
+    int count = 0;
+    String[] words = inputText.split("\\s+"); // Pisahkan teks berdasarkan spasi
+
+    for (String word : words) {
+        if (word.equalsIgnoreCase(keyword)) {
+            count++;
+        }
+    }
+
+    // Tampilkan hasil pencarian
+    if (count > 0) {
+        JOptionPane.showMessageDialog(this, "Kata \"" + keyword + "\" ditemukan sebanyak " + count + " kali.");
+    } else {
+        JOptionPane.showMessageDialog(this, "Kata \"" + keyword + "\" tidak ditemukan.");
+    }
+    }//GEN-LAST:event_btnCariActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,22 +302,24 @@ public class penghitungKataForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnCari;
+    private javax.swing.JButton btnHitung;
+    private javax.swing.JButton btnSimpan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField lblCari;
     private javax.swing.JTextField lblJumlahKalimat;
     private javax.swing.JTextField lblJumlahKarakter;
     private javax.swing.JTextField txtJumlahKata;
+    private javax.swing.JTextField txtJumlahParagraf;
     // End of variables declaration//GEN-END:variables
 }
