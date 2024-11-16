@@ -1,4 +1,6 @@
-
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /*
@@ -71,15 +73,20 @@ public class penghitungKataForm extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel2.add(btnHitung, gridBagConstraints);
 
         btnSimpan.setText("Simpan");
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
@@ -90,6 +97,11 @@ public class penghitungKataForm extends javax.swing.JFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jTextArea1.setPreferredSize(new java.awt.Dimension(340, 92));
+        jTextArea1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextArea1KeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTextArea1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -101,6 +113,7 @@ public class penghitungKataForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel2.add(jScrollPane1, gridBagConstraints);
 
+        txtJumlahKata.setEditable(false);
         txtJumlahKata.setPreferredSize(new java.awt.Dimension(200, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -167,6 +180,7 @@ public class penghitungKataForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel2.add(btnCari, gridBagConstraints);
 
+        lblJumlahKarakter.setEditable(false);
         lblJumlahKarakter.setPreferredSize(new java.awt.Dimension(200, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -176,6 +190,7 @@ public class penghitungKataForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel2.add(lblJumlahKarakter, gridBagConstraints);
 
+        lblJumlahKalimat.setEditable(false);
         lblJumlahKalimat.setPreferredSize(new java.awt.Dimension(200, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -192,6 +207,8 @@ public class penghitungKataForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel2.add(lblCari, gridBagConstraints);
+
+        txtJumlahParagraf.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
@@ -214,6 +231,9 @@ public class penghitungKataForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Variabel untuk mengontrol apakah real-time aktif
+    private boolean isRealTimeActive = false;
+    
     private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
      // Ambil teks dari JTextArea
     String inputText = jTextArea1.getText();
@@ -233,6 +253,9 @@ public class penghitungKataForm extends javax.swing.JFrame {
      lblJumlahKarakter.setText(String.valueOf(charCount));
      lblJumlahKalimat.setText(String.valueOf(sentenceCount));
     txtJumlahParagraf.setText(String.valueOf(paragraphCount));
+    
+      // Aktifkan penghitungan real-time
+    isRealTimeActive = true;
     }//GEN-LAST:event_btnHitungActionPerformed
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
@@ -265,6 +288,55 @@ public class penghitungKataForm extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Kata \"" + keyword + "\" tidak ditemukan.");
     }
     }//GEN-LAST:event_btnCariActionPerformed
+
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        // Pilih lokasi file menggunakan JFileChooser
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Simpan Teks dan Hasil");
+    int userSelection = fileChooser.showSaveDialog(this);
+
+    if (userSelection == JFileChooser.APPROVE_OPTION) {
+        try (FileWriter writer = new FileWriter(fileChooser.getSelectedFile())) {
+            // Ambil teks dari JTextArea
+            String inputText = jTextArea1.getText();
+
+            // Hitung jumlah kata, karakter, kalimat, dan paragraf
+            int wordCount = inputText.isEmpty() ? 0 : inputText.split("\\s+").length;
+            int charCount = inputText.length();
+            int sentenceCount = inputText.isEmpty() ? 0 : inputText.split("[.!?]").length;
+            int paragraphCount = inputText.isEmpty() ? 0 : inputText.split("\n").length;
+
+            // Format hasil perhitungan
+            String hasil = "Jumlah Kata: " + wordCount +
+                           "\nJumlah Karakter: " + charCount +
+                           "\nJumlah Kalimat: " + sentenceCount +
+                           "\nJumlah Paragraf: " + paragraphCount;
+
+            // Tulis teks dan hasil ke file
+            writer.write("Teks:\n" + inputText + "\n\nHasil Perhitungan:\n" + hasil);
+
+            JOptionPane.showMessageDialog(this, "File berhasil disimpan!");
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat menyimpan file.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void jTextArea1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyReleased
+         if (isRealTimeActive) {
+        // Ambil teks dari JTextArea
+        String inputText = jTextArea1.getText();
+            int wordCount = inputText.isEmpty() ? 0 : inputText.split("\\s+").length;
+            int charCount = inputText.length();
+            int sentenceCount = inputText.isEmpty() ? 0 : inputText.split("[.!?]").length;
+            int paragraphCount = inputText.isEmpty() ? 0 : inputText.split("\n").length;
+           txtJumlahKata.setText(String.valueOf(wordCount));
+            lblJumlahKarakter.setText(String.valueOf(charCount));
+            lblJumlahKalimat.setText(String.valueOf(sentenceCount));
+            txtJumlahParagraf.setText(String.valueOf(paragraphCount));
+            
+         }
+    }//GEN-LAST:event_jTextArea1KeyReleased
 
     /**
      * @param args the command line arguments
