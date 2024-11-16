@@ -97,6 +97,11 @@ public class penghitungKataForm extends javax.swing.JFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jTextArea1.setPreferredSize(new java.awt.Dimension(340, 92));
+        jTextArea1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextArea1FocusGained(evt);
+            }
+        });
         jTextArea1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextArea1KeyReleased(evt);
@@ -201,6 +206,14 @@ public class penghitungKataForm extends javax.swing.JFrame {
         jPanel2.add(lblJumlahKalimat, gridBagConstraints);
 
         lblCari.setPreferredSize(new java.awt.Dimension(200, 28));
+        lblCari.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                lblCariFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lblCariFocusLost(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
@@ -337,6 +350,17 @@ public class penghitungKataForm extends javax.swing.JFrame {
             
          }
     }//GEN-LAST:event_jTextArea1KeyReleased
+
+    private void lblCariFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblCariFocusLost
+    }//GEN-LAST:event_lblCariFocusLost
+
+    private void lblCariFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblCariFocusGained
+        lblCari.setText("");
+    }//GEN-LAST:event_lblCariFocusGained
+
+    private void jTextArea1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextArea1FocusGained
+        
+    }//GEN-LAST:event_jTextArea1FocusGained
 
     /**
      * @param args the command line arguments
